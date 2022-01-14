@@ -76,7 +76,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       //}
         
       // ** DRAW **
-
+      
       //drawbg
       display.fillScreen(light ? GxEPD_WHITE : GxEPD_BLACK);
       display.fillRoundRect(2,2,196,196,8,light ? GxEPD_BLACK : GxEPD_WHITE);
@@ -122,15 +122,15 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
        display.fillRoundRect(20,20,26*batt,4,2,light ? GxEPD_BLACK : GxEPD_WHITE);
       }                 
 
-      display.setFont(&Teko_Regular12pt7b);
-      lasty = 200 - 16;
-
       //draw steps
+      display.setFont(&LECO_2014_Regular10pt7b);
+      lasty = 200 - 16;
+      
       textstring = sensor.getCounter();
-      textstring += " steps";
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.fillRoundRect(16,lasty-h-2,w + 7,h+4,2,light ? GxEPD_BLACK : GxEPD_WHITE);
-      display.setCursor(19, lasty-3);
+      display.fillRoundRect(16,lasty-h-2,w + 8,20,2,light ? GxEPD_BLACK : GxEPD_WHITE);
+      display.fillRoundRect(151,16,33,16,2,light ? GxEPD_BLACK : GxEPD_WHITE);
+      display.setCursor(19, 184);
       display.setTextColor(light ? GxEPD_WHITE : GxEPD_BLACK);
       display.print(textstring);
       display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
@@ -158,62 +158,36 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.setCursor(16, lasty);
       display.print(textstring);
       lasty += -40;
+      
+      //draw image
+      display.drawBitmap(115,105, epd_bitmap_MANDO, 70, 82, GxEPD_BLACK);
 
-      const uint8_t WEATHER_ICON_WIDTH = 48;
-      const uint8_t WEATHER_ICON_HEIGHT = 32;
-
+      //draw temperature  
       weatherData currentWeather = getWeatherData();
   
       int8_t temperature = currentWeather.temperature;
       int16_t weatherConditionCode = currentWeather.weatherConditionCode;
-  
-      display.setFont(&Teko_Regular12pt7b);
+      display.setTextColor(light ? GxEPD_WHITE : GxEPD_BLACK);
+      display.setFont(&LECO_2014_Regular7pt7b);
       display.getTextBounds(String(temperature), 0, 0, &x1, &y1, &w, &h);
       if(159 - w - x1 > 87){
-          display.setCursor(140, 175);
+          display.setCursor(155, 28);
           //lasty += -70;
       }else{
-          display.setFont(&Teko_Regular12pt7b);
+          display.setFont(&LECO_2014_Regular7pt7b);
           display.getTextBounds(String(temperature), 0, 0, &x1, &y1, &w, &h);
-          display.setCursor(140, 175);
+          display.setCursor(155, 28);
           //lasty += -70;
       }
       textstring = "C";
       display.println(temperature);
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(158, 175);
+      display.setCursor(172, 28);
       display.print(textstring);
+      display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
       
-      light = (currentTime.Hour >= 18 || currentTime.Hour <= 5) ? true : false;
-      const unsigned char* weatherIcon;
-  
-      //https://openweathermap.org/weather-conditions
-      if (weatherConditionCode == 999) { //RTC
-        weatherIcon = rtc;
-      } else if (weatherConditionCode == 998) { //RTC SLEEEP
-        weatherIcon = rtcsleep;
-      } else if (weatherConditionCode > 801 && weatherConditionCode < 805) { //Cloudy
-        weatherIcon = scatteredclouds;
-      } else if (weatherConditionCode == 801) { //Few Clouds
-        weatherIcon = (light) ? fewcloudsnight : fewclouds;
-      } else if (weatherConditionCode == 800) { //Clear
-        weatherIcon = (light) ? clearskynight : clearsky;
-      } else if (weatherConditionCode >= 700) { //Atmosphere
-        weatherIcon = mist;
-      } else if (weatherConditionCode >= 600) { //Snow
-        weatherIcon = snow;
-      } else if (weatherConditionCode >= 500) { //Rain
-        weatherIcon = rain;
-      } else if (weatherConditionCode >= 300) { //Drizzle
-        weatherIcon = drizzle;
-      } else if (weatherConditionCode >= 200) { //Thunderstorm
-        weatherIcon = thunderstorm;
-      }
-    
-      display.fillRect(141, 91, 49, 44, GxEPD_WHITE); //Redraw Helper
-      display.drawBitmap(130, 115, weatherIcon, 45, 40,GxEPD_BLACK);
-    }
 
+    }
 };
 
 
