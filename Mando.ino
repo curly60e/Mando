@@ -152,6 +152,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       
       //draw image
       display.drawBitmap(115,105, epd_bitmap_MANDO, 70, 82, GxEPD_BLACK);
+      display.drawBitmap(86,8, epd_bitmap_bitcoin_PNG38, 30, 30, GxEPD_BLACK);
 
       //draw temperature  
       weatherData currentWeather = getWeatherData();
