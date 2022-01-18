@@ -34,6 +34,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       uint16_t w, h;
       String textstring;
       String textstringMinute;
+      String textstringSecond;
       bool light = true; // left this here if someone wanted to tweak for dark
       //resets step counter at midnight everyday
       if(currentTime.Hour == 00 && currentTime.Minute == 00) {
@@ -50,6 +51,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       //  delay(100);
       //  VibeTo(false);
       //} 
+      
       if (digitalRead(BACK_BTN_PIN) == 1) {
         VibeTo(true);
         delay(50);
@@ -116,7 +118,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       //draw steps
       display.setFont(&LECO_2014_Regular10pt7b);
       lasty = 200 - 16;
-      
+
       textstring = sensor.getCounter();
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
       display.fillRoundRect(16,lasty-h-2,w + 8,20,2,light ? GxEPD_BLACK : GxEPD_WHITE);
@@ -126,7 +128,8 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.print(textstring);
       display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
       lasty += -8-h;
-
+      
+      display.setFont(&LECO_2014_Regular7pt7b);
       // draw year
       textstring = currentTime.Year + 1970;
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
@@ -151,6 +154,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       lasty += -40;
       
       //draw image
+      //display.drawBitmap(105,110, epd_bitmap_qr_code, 80, 80, GxEPD_BLACK);
       display.drawBitmap(115,105, epd_bitmap_MANDO, 70, 82, GxEPD_BLACK);
       display.drawBitmap(86,8, epd_bitmap_bitcoin_PNG38, 30, 30, GxEPD_BLACK);
 
@@ -180,6 +184,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       
 
     }
+
 };
 
 
