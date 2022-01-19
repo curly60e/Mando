@@ -145,7 +145,8 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.setCursor(16, lasty);
       display.print(textstring);
       lasty += -20;
-      
+
+      display.setFont(&LECO_2014_Regular6pt7b);
       // draw day
       textstring = dayStr(currentTime.Wday);
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
@@ -154,7 +155,8 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       lasty += -40;
       
       //draw image
-      //display.drawBitmap(105,110, epd_bitmap_qr_code, 80, 80, GxEPD_BLACK);
+      //display.drawBitmap(107,110, epd_bitmap_qr_code, 80, 80, GxEPD_BLACK);
+      //display.drawBitmap(100,102, epd_bitmap_blankqr_code, 90, 90, GxEPD_BLACK);
       display.drawBitmap(115,105, epd_bitmap_MANDO, 70, 82, GxEPD_BLACK);
       display.drawBitmap(86,8, epd_bitmap_bitcoin_PNG38, 30, 30, GxEPD_BLACK);
 
